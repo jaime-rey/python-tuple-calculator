@@ -164,3 +164,17 @@ def test_determinant_non_square():
 def test_malformed(expr):
     with pytest.raises(ValueError):
         process(expr)
+
+
+# ---------------------------- Suma de array ----------------------------
+
+def test_array_sum():
+    assert evaluate("{1,2,3,4,5}") == pytest.approx(15)
+    assert process("{1,2,3,4,5}") == "15"
+    assert evaluate("{PI,E}") == pytest.approx(math.pi + math.e)
+    assert evaluate("{}") == 0
+
+
+def test_array_sum_malformed():
+    with pytest.raises(ValueError):
+        evaluate("{1,2,3")

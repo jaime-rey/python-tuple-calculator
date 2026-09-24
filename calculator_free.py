@@ -9,6 +9,13 @@ def evaluate(expr: str) -> float:
     if expr is None:
         raise ValueError("La entrada no puede ser nula")
     cleaned = expr.strip()
+    if cleaned.startswith("{"):
+        if not cleaned.endswith("}"):
+            raise ValueError(f"Formato inválido: falta '}}' en {expr}")
+        inner = cleaned[1:-1].strip()
+        if not inner:
+            return 0.0
+        return sum(_parse_number(t.strip()) for t in inner.split(","))
     if cleaned.startswith("(") and cleaned.endswith(")"):
         cleaned = cleaned[1:-1]
     parts = cleaned.split(",")
@@ -58,7 +65,7 @@ def _run(expr: str) -> None:
 
 if __name__ == "__main__":
     ejemplos = ["(1,1,+)", "(7,5,-)", "(6,3,*)", "(4,2,/)", "(1,0,/)",
-                "(2,E,*)", "(PI,2,/)", "(E,PI,+)"]
+                "(2,E,*)", "(PI,2,/)", "(E,PI,+)", "{1,2,3,4,5}", "{PI,E}"]
     for e in ejemplos:
         _run(e)
     if sys.argv[1:]:

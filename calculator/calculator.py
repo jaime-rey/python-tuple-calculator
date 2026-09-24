@@ -22,6 +22,8 @@ MAX_PRIME_LIMIT = 100_000_000
 # ---------------------------- API pública ----------------------------
 
 def evaluate(expr: str) -> float:
+    if expr is not None and expr.strip().startswith("{"):
+        return _sum_array(expr.strip())
     nums, op = _parse(expr)
     if op in ("X", "Y"):
         raise RuntimeError("Usa solve() para ecuaciones polinómicas")
@@ -45,6 +47,8 @@ def process(expr: str) -> str:
     if expr is None:
         raise ValueError("La entrada no puede ser nula")
     s = expr.strip()
+    if s.startswith("{"):
+        return _format_number(_sum_array(s))
     if s.startswith("["):
         return _process_bracketed(s)
     nums, op = _parse(expr)
@@ -86,6 +90,15 @@ def _parse_number(token: str) -> float:
         return float(token)
     except ValueError as _:
         raise ValueError(f"Número inválido: {token}") from None
+
+
+def _sum_array(expr: str) -> float:
+    if not expr.endswith("}"):
+        raise ValueError(f"Formato inválido: falta '}}' en {expr}")
+    inner = expr[1:-1].strip()
+    if not inner:
+        return 0.0
+    return sum(_parse_number(t.strip()) for t in inner.split(","))
 
 
 def _split_top_level(s: str) -> list[str]:

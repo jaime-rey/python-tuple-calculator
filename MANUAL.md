@@ -28,13 +28,14 @@ python -m calculator "(4,2,/)" "[[(1,2),(3,4)],D]"
 
 ## 2. Formato general de entrada
 
-La calculadora reconoce **tres formatos** según el carácter inicial:
+La calculadora reconoce **cuatro formatos** según el carácter inicial:
 
 | Empieza por | Forma                            | Uso                          |
 |-------------|----------------------------------|------------------------------|
 | `(`         | `(arg, arg, ..., OP)`            | operaciones escalares y polinomios (con `X`/`Y`, `P`) |
 | `[`         | `[operando, operando, OP]`       | polinomios (+,-,*), matrices, escalar×matriz |
 | `[`         | `[operando, OP]`                 | operadores unarios sobre matriz: `T`, `D` |
+| `{`         | `{n1, n2, ..., nk}`              | suma directa de todos los números |
 
 En todos los casos los espacios se ignoran y el **último token** es el operador.
 
@@ -254,9 +255,24 @@ python -m pytest tests/ -q
 
 ---
 
-## 16. Versión reducida
+## 16. Suma de array `{n1, n2, ..., nk}`
 
-`calculator_free.py` es un script autónomo que ofrece únicamente `+`, `-`, `*`, `/` sobre operandos `(a,b,op)` (con `E`/`PI` como constantes):
+Formato para sumar una lista arbitraria de números. Disponible tanto en la versión completa como en la reducida.
+
+| Entrada          | Resultado |
+|------------------|-----------|
+| `{1,2,3,4,5}`    | 15        |
+| `{PI,E}`         | π + e     |
+| `{10,-3,2.5}`    | 9.5       |
+| `{}`             | 0         |
+
+Acepta literales numéricos y las constantes `E`/`PI`. Errores: falta `}` de cierre → `ValueError`.
+
+---
+
+## 17. Versión reducida
+
+`calculator_free.py` es un script autónomo que ofrece únicamente `+`, `-`, `*`, `/` sobre operandos `(a,b,op)` (con `E`/`PI` como constantes) y la suma de array `{n1,...,nk}`:
 
 ```powershell
 python calculator_free.py "(2,E,*)"
