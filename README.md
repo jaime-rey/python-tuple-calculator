@@ -16,14 +16,14 @@ Sin dependencias externas (solo `pytest` para los tests). Requiere Python ≥ 3.
 
 ## Ejecutar
 
-```powershell
-python -m calculator "(4,2,/)" "[[(1,2),(3,4)],D]"
+```bash
+cd C:\pythontest; python -m calculator "(4,2,/)" "[[(1,2),(3,4)],D]"
 ```
 
 ## Tests
 
-```powershell
-python -m pytest tests/ -q
+```bash
+cd C:\pythontest; python -m pytest tests/ -q
 ```
 
 ## Documentación
@@ -35,6 +35,6 @@ python -m pytest tests/ -q
 
 `calculator_free.py` es un script autónomo con solo `+`, `-`, `*`, `/` y las constantes `E`, `PI`.
 
-```powershell
-python calculator_free.py "(2,E,*)"
+```bash
+cd C:\pythontest; python calculator_free.py "(2,E,*)"
 ```
